@@ -1,0 +1,40 @@
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+const AboutSection = ({ setActiveLink }) => {
+    const { ref, inView } = useInView({
+        threshold: 0.5,
+    });
+
+    useEffect(() => {
+        if (inView) {
+            setActiveLink('#tentang');
+        }
+    }, [inView, setActiveLink]);
+
+    return (
+        <section
+            id="tentang"
+            ref={ref}
+            className={`py-20 transition-all duration-700 ease-in-out bg-gradient-to-br from-stone-50 to-stone-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+        >
+            <div className="container mx-auto px-6">
+                <div className="text-center mb-12">
+                    <div className="w-20 h-1 bg-amber-500 mx-auto mb-4 rounded"></div>
+                    <h2 className="font-serif text-4xl font-extrabold text-stone-800">Tentang Saya</h2>
+                </div>
+                <div className="max-w-3xl mx-auto text-center text-lg text-stone-600 leading-relaxed font-sans">
+                    <p>
+                        Saya adalah seorang web developer yang berdedikasi dengan hasrat untuk membangun aplikasi yang cepat, efisien, dan ramah pengguna. Dengan keahlian di bidang front-end dan back-end, saya mampu menghadirkan solusi digital yang lengkap dari awal hingga akhir.
+                    </p>
+                    <p className="mt-4">
+                        Saya percaya bahwa teknologi adalah alat yang kuat untuk memecahkan masalah, dan saya selalu bersemangat untuk mempelajari hal-hal baru dan meningkatkan kemampuan saya.
+                    </p>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default AboutSection;
