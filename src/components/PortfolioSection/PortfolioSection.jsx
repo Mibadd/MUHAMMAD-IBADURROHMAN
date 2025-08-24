@@ -7,9 +7,10 @@ import serviceKendaraanImg from '../../assets/images/Service-kendaraan.png';
 import parkirKendaraanImg from '../../assets/images/Parkir.png';
 import todoListImg from '../../assets/images/to-do list.png';
 
+
 const PortfolioSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
-        threshold: 0.2,
+        threshold: 0.3,
         triggerOnce: false,
     });
 
@@ -25,36 +26,46 @@ const PortfolioSection = ({ setActiveLink }) => {
         {
             id: 1,
             title: 'Service Kendaraan',
-            description: 'Aplikasi manajemen untuk layanan servis kendaraan.',
+            // --- DESKRIPSI BARU ---
+            description: 'Mendigitalkan proses servis untuk meningkatkan efisiensi bengkel dan kepuasan pelanggan.',
             imageUrl: serviceKendaraanImg,
             link: 'https://github.com/Mibadd/Service-Kendaraan.git',
-            longDescription: 'Proyek ini dibangun untuk mempermudah bengkel dalam mengelola data servis dan antrian pelanggan secara digital. Sebagai Full-Stack Developer, saya merancang database, membangun API, dan mengembangkan antarmuka admin menggunakan PHP.'
+            longDescription: 'Aplikasi ini dirancang untuk menggantikan pencatatan manual di bengkel, memungkinkan manajemen data servis dan antrian pelanggan yang lebih cepat dan akurat. Tujuannya adalah mengurangi waktu tunggu pelanggan dan mempermudah mekanik dalam melacak riwayat servis kendaraan.',
+            tags: ['PHP', 'MySQL', 'Bootstrap'],
         },
         {
             id: 2,
             title: 'ParkEase',
-            description: 'Aplikasi manajemen parkir kendaraan berbasis mobile.',
+            // --- DESKRIPSI BARU ---
+            description: 'Mempermudah pencarian parkir real-time melalui aplikasi mobile yang terintegrasi.',
             imageUrl: parkirKendaraanImg,
             link: 'https://github.com/Mibadd/ParkEase.git',
-            longDescription: 'ParkEase adalah aplikasi mobile untuk membantu pengguna menemukan dan memesan tempat parkir secara real-time. Sebagai Backend Developer, saya bertanggung jawab merancang dan membangun REST API untuk mengelola semua data terkait parkir dan pengguna.',
-            imageStyle: 'contain'
+            longDescription: 'ParkEase mengatasi masalah sulitnya mencari tempat parkir dengan menyediakan platform bagi pengguna untuk menemukan dan memesan slot parkir secara efisien. Sebagai Backend Developer, saya membangun API yang andal untuk memastikan sinkronisasi data ketersediaan parkir berjalan secara real-time.',
+            imageStyle: 'contain',
+            tags: ['Java', 'Firebase'],
         },
         {
             id: 3,
             title: 'Aplikasi To-Do List',
-            description: 'Aplikasi sederhana untuk mencatat dan mengelola tugas harian.',
+            // --- DESKRIPSI BARU ---
+            description: 'Meningkatkan produktivitas harian dengan antarmuka manajemen tugas yang intuitif.',
             imageUrl: todoListImg,
             link: 'https://github.com/Mibadd/To-do-List.git',
-            longDescription: 'Ini adalah aplikasi To-Do List yang dibangun untuk membantu pengguna mengatur tugas sehari-hari dengan antarmuka yang bersih dan mudah digunakan.'
+            longDescription: 'Aplikasi To-Do List ini dirancang dengan fokus pada kesederhanaan dan kemudahan penggunaan, membantu pengguna untuk tetap terorganisir dan fokus pada tugas terpenting mereka. Proyek ini menunjukkan kemampuan saya dalam membangun aplikasi CRUD (Create, Read, Update, Delete) yang fungsional dan responsif.',
+            tags: ['Vue', 'JavaScript', 'Tailwind CSS'],
         },
     ];
 
+    // 2. Definisikan varian untuk meluncur dari kanan
     const containerVariants = {
-        hidden: { opacity: 0 },
+        hidden: { opacity: 0, x: 100 }, // Posisi awal: di kanan dan transparan
         visible: {
             opacity: 1,
+            x: 0, // Posisi akhir: di tempatnya
             transition: {
-                staggerChildren: 0.2,
+                duration: 0.8,
+                ease: "easeOut",
+                staggerChildren: 0.2, // Efek stagger untuk setiap kartu
             },
         },
     };
@@ -64,20 +75,20 @@ const PortfolioSection = ({ setActiveLink }) => {
         visible: {
             y: 0,
             opacity: 1,
-            transition: {
-                duration: 1.5,
-                ease: "easeOut"
-            }
         },
     };
 
     return (
         <>
-            <section
+            {/* 3. Ganti <section> dengan <motion.section> */}
+            <motion.section
                 id="portofolio"
                 ref={ref}
-                className={`py-20 transition-all duration-700 ease-in-out bg-gradient-to-br from-stone-50 to-stone-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                    }`}
+                className="py-50 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden" // Hapus kelas transisi
+                // 4. Terapkan animasi
+                variants={containerVariants}
+                initial="hidden"
+                animate={inView ? 'visible' : 'hidden'}
             >
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
@@ -86,13 +97,12 @@ const PortfolioSection = ({ setActiveLink }) => {
                         <p className="font-sans mt-4 text-lg text-stone-600">Beberapa proyek yang telah saya kerjakan.</p>
                     </div>
 
-                    <motion.div
+                    {/* motion.div di sini tidak perlu karena sudah ada di parent <motion.section> */}
+                    <div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate={inView ? 'visible' : 'hidden'}
                     >
                         {portfolio.map((item) => (
+                            // 5. Terapkan itemVariants pada setiap kartu
                             <motion.div key={item.id} variants={itemVariants} className="bg-slate-50 rounded-xl shadow-md overflow-hidden flex flex-col">
                                 <div className="w-full h-56 flex items-center justify-center overflow-hidden">
                                     <img
@@ -119,9 +129,9 @@ const PortfolioSection = ({ setActiveLink }) => {
                                 </div>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
-            </section>
+            </motion.section>
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
         </>
     );

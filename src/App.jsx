@@ -8,6 +8,7 @@ import ServicesSection from './components/ServicesSection/ServicesSection';
 import PortfolioSection from './components/PortfolioSection/PortfolioSection';
 import ContactSection from './components/ContactSection/ContactSection';
 import Footer from './components/Footer/Footer';
+import CustomCursor from './components/CustomCursor';
 
 function App() {
   const [activeLink, setActiveLink] = useState('#beranda');
@@ -15,7 +16,8 @@ function App() {
   return (
     <div className="bg-slate-50 text-slate-800 antialiased">
       <Navbar activeLink={activeLink} setActiveLink={setActiveLink} />
-      <main>
+      <CustomCursor />
+      <main className="overflow-hidden">
         {/* Teruskan setActiveLink ke setiap seksi */}
         <HeroSection setActiveLink={setActiveLink} />
         <AboutSection setActiveLink={setActiveLink} />

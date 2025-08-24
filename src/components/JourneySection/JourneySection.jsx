@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
-// Gambar sertifikat 
+// Gambar sertifikat
 import sertifikatWeb from '../../assets/images/sertifikat-web.png';
 import sertifikatWebFe from '../../assets/images/sertifikat-web-fe.png';
 import sertifikatJs from '../../assets/images/sertifikat-js.png';
@@ -10,13 +12,16 @@ import sertifikatSql from '../../assets/images/sertifikat-sql.png';
 
 const JourneySection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
-        threshold: 0.5,
+        threshold: 0.2,
+        triggerOnce: false,
     });
 
     const [activeTab, setActiveTab] = useState('pendidikan');
 
     useEffect(() => {
-        // Logika untuk navigasi dinamis
+        if (inView) {
+            setActiveLink('#journey');
+        }
     }, [inView, setActiveLink]);
 
     const education = [
@@ -59,13 +64,19 @@ const JourneySection = ({ setActiveLink }) => {
         },
     ];
 
+    // ... (Komponen TimelineItem dan CertificateCard tidak berubah) ...
     const TimelineItem = ({ item, index }) => (
         <div className="relative mb-8 flex justify-between items-center w-full">
+            {/* Spacer ini hanya aktif di desktop */}
             <div className={`hidden md:block w-[calc(50%-2rem)] ${index % 2 !== 0 ? 'order-2' : ''}`}></div>
-            <div className="z-10 absolute left-1/2 w-4 h-4 bg-amber-600 rounded-full -translate-x-1/2 border-4 border-stone-100"></div>
-            <div className={`w-full md:w-[calc(50%-2rem)] p-4 bg-white rounded-lg shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+
+            {/* Titik penanda waktu: Posisinya diubah untuk seluler */}
+            <div className="z-10 absolute left-4 md:left-1/2 w-4 h-4 bg-amber-600 rounded-full -translate-x-1/2 border-4 border-stone-100"></div>
+
+            {/* Kartu Konten: Diberi padding kiri di seluler */}
+            <div className={`w-full md:w-[calc(50%-2rem)] p-4 pl-12 md:p-4 bg-white rounded-lg shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                 }`}>
-                <p className="font-sans font-bold text-amber-600 flex items-center gap-2" style={{ justifyContent: index % 2 === 0 ? 'flex-end' : 'flex-start' }}>
+                <p className="font-sans font-bold text-amber-600 flex items-center gap-2" style={{ justifyContent: index % 2 === 0 ? 'md:flex-end' : 'flex-start' }}>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span>{item.period || item.year}</span>
                 </p>
@@ -85,12 +96,15 @@ const JourneySection = ({ setActiveLink }) => {
         </div>
     );
 
+
     return (
-        <section
+        <motion.section
             id="journey"
             ref={ref}
-            className={`py-20 transition-all duration-700 ease-in-out bg-gradient-to-br from-stone-50 to-stone-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+            className="py-20 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
         >
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
@@ -99,8 +113,8 @@ const JourneySection = ({ setActiveLink }) => {
                     <p className="font-sans mt-4 text-lg text-stone-600">Latar belakang pendidikan dan sertifikasi yang saya miliki.</p>
                 </div>
 
-                {/* Navigasi Tab Interaktif */}
                 <div className="flex justify-center items-center gap-8 mb-12">
+                    {/* ... (kode tombol tab tidak berubah) ... */}
                     <h3
                         onClick={() => setActiveTab('pendidikan')}
                         className={`font-serif text-2xl font-bold cursor-pointer transition-all duration-300 flex items-center gap-2 ${activeTab === 'pendidikan' ? 'text-amber-600' : 'text-stone-500 hover:text-stone-800'
@@ -119,24 +133,29 @@ const JourneySection = ({ setActiveLink }) => {
                     </h3>
                 </div>
 
-                <div className={`transition-opacity duration-500 ${activeTab === 'pendidikan' ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
-                    <div className="relative max-w-2xl mx-auto">
-                        <div className="absolute left-1/2 w-0.5 h-full bg-stone-300 -translate-x-1/2"></div>
-                        {education.map((item, index) => (
-                            <TimelineItem key={index} item={item} index={index} />
-                        ))}
+                {/* === BAGIAN YANG DIPERBAIKI === */}
+                <div className="relative">
+                    {/* Konten Pendidikan */}
+                    <div className={`transition-opacity duration-500 ${activeTab === 'pendidikan' ? 'opacity-100' : 'opacity-0 invisible absolute'}`}>
+                        <div className="relative max-w-2xl mx-auto">
+                            <div className="absolute left-1/2 w-0.5 h-full bg-stone-300 -translate-x-1/2"></div>
+                            {education.map((item, index) => (
+                                <TimelineItem key={index} item={item} index={index} />
+                            ))}
+                        </div>
                     </div>
-                </div>
 
-                <div className={`transition-opacity duration-500 ${activeTab === 'sertifikat' ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {certificates.map((item, index) => (
-                            <CertificateCard key={index} item={item} />
-                        ))}
+                    {/* Konten Sertifikat */}
+                    <div className={`transition-opacity duration-500 ${activeTab === 'sertifikat' ? 'opacity-100' : 'opacity-0 invisible absolute'}`}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {certificates.map((item, index) => (
+                                <CertificateCard key={index} item={item} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

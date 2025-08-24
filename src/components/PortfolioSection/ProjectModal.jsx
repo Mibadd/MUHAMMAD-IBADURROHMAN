@@ -25,24 +25,12 @@ const ProjectModal = ({ project, onClose }) => {
                     <div className="p-6 relative">
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 text-stone-500 hover:text-stone-800"
+                            className="absolute top-4 right-4 text-stone-500 hover:text-stone-800 z-10"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
+                            {/* ... (kode SVG tombol close) ... */}
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" > <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> </svg>
                         </button>
 
-                        {/* Gambar */}
                         <div className="w-full h-56 flex items-center justify-center bg-slate-100 rounded-lg mb-4 overflow-hidden">
                             <img
                                 src={project.imageUrl}
@@ -54,14 +42,27 @@ const ProjectModal = ({ project, onClose }) => {
                             />
                         </div>
 
-                        <h3 className="font-serif text-2xl font-bold text-stone-900">
+                        <h3 className="font-serif text-3xl font-bold text-stone-900">
                             {project.title}
                         </h3>
+
+                        {/* Tags Teknologi */}
+                        <div className="mt-4 flex flex-wrap gap-2">
+                            {project.tags?.map((tag) => (
+                                <span key={tag} className="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+
+                        {/* Deskripsi */}
                         <div className="mt-4 text-left">
-                            <p className="font-sans text-stone-600 leading-relaxed">
+                            <p className="font-sans text-stone-600 leading-relaxed text-base">
                                 {project.longDescription}
                             </p>
                         </div>
+
+                        {/* Tombol Aksi */}
                         <div className="mt-6 text-right">
                             <a
                                 href={project.link}

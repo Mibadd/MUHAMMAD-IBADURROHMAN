@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
-// Terima 'setActiveLink' sebagai prop
 const ServicesSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
-        threshold: 0.5, // Memicu saat 50% dari seksi terlihat
+        threshold: 0.3,
+        triggerOnce: false, // Animasi hanya akan berjalan sekali
     });
 
-    // Gunakan useEffect untuk memberi tahu App.jsx saat seksi ini terlihat
     useEffect(() => {
         if (inView) {
             setActiveLink('#layanan');
@@ -38,12 +39,37 @@ const ServicesSection = ({ setActiveLink }) => {
         },
     ];
 
+    // Varian untuk seksi, meluncur dari KIRI
+    const containerVariants = {
+        hidden: { opacity: 0, x: -100 }, // Mengubah x: 100 menjadi x: -100
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut",
+                staggerChildren: 0.2, // Efek stagger untuk setiap kartu
+            },
+        },
+    };
+
+    // Varian untuk setiap kartu, muncul dari bawah (sama seperti di PortfolioSection)
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+        },
+    };
+
     return (
-        <section
+        <motion.section
             id="layanan"
             ref={ref}
-            className={`bg-stone-50 py-20 transition-all duration-700 ease-in-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+            className="bg-white py-20 overflow-hidden"
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
         >
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
@@ -51,25 +77,29 @@ const ServicesSection = ({ setActiveLink }) => {
                     <h2 className="font-serif text-4xl font-extrabold text-stone-800">Layanan yang Saya Tawarkan</h2>
                     <p className="font-sans mt-4 text-lg text-stone-600">Saya dapat membantu Anda membangun produk digital dari awal hingga akhir.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {/* Grid sekarang menjadi motion.div untuk mengontrol stagger */}
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+                    variants={containerVariants} // Meneruskan varian
+                >
                     {services.map((service) => (
-                        // Pembungkus untuk perspektif 3D dan hover group
-                        <div key={service.title} className="group" style={{ perspective: '1000px' }}>
-                            {/* Efek Glow di Belakang SUDAH DIHAPUS */}
-
-                            {/* Kartu Konten */}
+                        <motion.div
+                            key={service.title}
+                            variants={itemVariants} // Setiap kartu menerapkan itemVariants
+                            className="group" style={{ perspective: '1000px' }}
+                        >
                             <div className="relative bg-white p-8 rounded-lg shadow-md text-center transition-transform duration-500 ease-in-out group-hover:rotate-y-6" style={{ transformStyle: 'preserve-3d' }}>
                                 <div className="flex justify-center mb-4 transition-transform duration-500 group-hover:-translate-y-2">
                                     {service.icon}
                                 </div>
                                 <h3 className="font-serif text-2xl font-bold text-stone-800 mb-3">{service.title}</h3>
-                                <p className="font-sans text-stone-600">{service.description}</p>
+                                <p className="font-sans text-stone-600 text-base">{service.description}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

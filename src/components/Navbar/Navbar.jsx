@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from 'framer-motion'; // 1. Impor motion
 
-// Terima 'activeLink' dan 'setActiveLink' sebagai props
 const Navbar = ({ activeLink, setActiveLink }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -15,12 +16,20 @@ const Navbar = ({ activeLink, setActiveLink }) => {
 
     const handleScroll = (e, targetId) => {
         e.preventDefault();
-        const targetElement = document.getElementById(targetId.substring(1));
+        // Mengambil elemen berdasarkan ID dari href
+        const targetElement = document.querySelector(targetId);
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        setActiveLink(targetId); // Perbarui state yang ada di App.jsx
-        setIsMenuOpen(false);
+        setActiveLink(targetId); // Memperbarui state di App.jsx
+        setIsMenuOpen(false); // Menutup menu setelah tautan diklik
+    };
+
+    // 2. Definisikan varian animasi untuk menu
+    const menuVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+        exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
     };
 
     return (
@@ -43,28 +52,43 @@ const Navbar = ({ activeLink, setActiveLink }) => {
                     ))}
                 </ul>
                 <div className="md:hidden">
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Buka Menu">
-                        <svg className="w-6 h-6 text-stone-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Buka atau Tutup Menu">
+                        {/* 3. Ikon berubah secara dinamis */}
+                        {isMenuOpen ? (
+                            <svg className="w-6 h-6 text-stone-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg> // Ikon 'X'
+                        ) : (
+                            <svg className="w-6 h-6 text-stone-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg> // Ikon hamburger
+                        )}
                     </button>
                 </div>
             </nav>
-            {isMenuOpen && (
-                <div className="md:hidden bg-stone-50/95 backdrop-blur-sm px-6 pb-4">
-                    <ul className="flex flex-col items-center space-y-4 font-sans">
-                        {navLinks.map((link) => (
-                            <li key={link.href}>
-                                <a
-                                    href={link.href}
-                                    onClick={(e) => handleScroll(e, link.href)}
-                                    className={`block transition-colors duration-300 ${activeLink === link.href ? 'text-amber-600 font-bold' : 'text-stone-700 hover:text-amber-600'}`}
-                                >
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+
+            {/* 4. Terapkan animasi pada menu seluler */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        className="md:hidden bg-stone-50/95 backdrop-blur-sm px-6 pb-4 absolute w-full shadow-lg"
+                        variants={menuVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        <ul className="flex flex-col items-center space-y-4 font-sans py-4">
+                            {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <a
+                                        href={link.href}
+                                        onClick={(e) => handleScroll(e, link.href)}
+                                        className={`block text-lg transition-colors duration-300 ${activeLink === link.href ? 'text-amber-600 font-bold' : 'text-stone-700 hover:text-amber-600'}`}
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 };

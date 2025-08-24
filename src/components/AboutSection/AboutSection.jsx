@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
 const AboutSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
         threshold: 0.5,
+        triggerOnce: false,
     });
 
     useEffect(() => {
@@ -12,12 +15,29 @@ const AboutSection = ({ setActiveLink }) => {
         }
     }, [inView, setActiveLink]);
 
+    // 2. Definisikan varian animasi
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 50 }, // Kondisi awal: tidak terlihat dan sedikit di bawah
+        visible: {
+            opacity: 1,
+            y: 0, // Kondisi akhir: terlihat penuh di posisi asli
+            transition: {
+                duration: 0.8,
+                ease: "easeOut"
+            }
+        }
+    };
+
     return (
-        <section
+        // 3. Ganti <section> dengan <motion.section> dan hapus kelas transisi CSS
+        <motion.section
             id="tentang"
             ref={ref}
-            className={`py-20 transition-all duration-700 ease-in-out bg-gradient-to-br from-stone-50 to-stone-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+            className="py-20 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden"
+            // 4. Terapkan varian animasi
+            variants={sectionVariants}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
         >
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
@@ -33,7 +53,7 @@ const AboutSection = ({ setActiveLink }) => {
                     </p>
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 
