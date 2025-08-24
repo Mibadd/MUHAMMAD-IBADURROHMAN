@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 import ProjectModal from './ProjectModal';
-
-// Impor semua gambar proyek
 import serviceKendaraanImg from '../../assets/images/Service-kendaraan.png';
 import parkirKendaraanImg from '../../assets/images/Parkir.png';
 import todoListImg from '../../assets/images/to-do list.png';
 
 const PortfolioSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
-        threshold: 0.5,
+        threshold: 0.2,
+        triggerOnce: false,
     });
 
     const [selectedProject, setSelectedProject] = useState(null);
@@ -48,6 +49,28 @@ const PortfolioSection = ({ setActiveLink }) => {
         },
     ];
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                duration: 1.5,
+                ease: "easeOut"
+            }
+        },
+    };
+
     return (
         <>
             <section
@@ -62,10 +85,15 @@ const PortfolioSection = ({ setActiveLink }) => {
                         <h2 className="font-serif text-4xl font-extrabold text-stone-800">Portofolio Proyek</h2>
                         <p className="font-sans mt-4 text-lg text-stone-600">Beberapa proyek yang telah saya kerjakan.</p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                    <motion.div
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate={inView ? 'visible' : 'hidden'}
+                    >
                         {portfolio.map((item) => (
-                            <div key={item.id} className="bg-slate-50 rounded-xl shadow-md overflow-hidden flex flex-col">
-                                {/* --- PERUBAHAN LOGIKA PADA TAG <img> --- */}
+                            <motion.div key={item.id} variants={itemVariants} className="bg-slate-50 rounded-xl shadow-md overflow-hidden flex flex-col">
                                 <div className="w-full h-56 flex items-center justify-center overflow-hidden">
                                     <img
                                         src={item.imageUrl}
@@ -89,9 +117,9 @@ const PortfolioSection = ({ setActiveLink }) => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
