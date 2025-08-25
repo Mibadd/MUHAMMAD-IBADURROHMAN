@@ -4,10 +4,10 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 
 // Gambar sertifikat
-import sertifikatWeb from '../../assets/images/sertifikat-web.png';
-import sertifikatWebFe from '../../assets/images/sertifikat-web-fe.png';
-import sertifikatJs from '../../assets/images/sertifikat-js.png';
-import sertifikatSql from '../../assets/images/sertifikat-sql.png';
+import sertifikatWeb from '/src/assets/images/sertifikat-web.png';
+import sertifikatWebFe from '/src/assets/images/sertifikat-web-fe.png';
+import sertifikatJs from '/src/assets/images/sertifikat-js.png';
+import sertifikatSql from '/src/assets/images/sertifikat-sql.png';
 
 
 const JourneySection = ({ setActiveLink }) => {

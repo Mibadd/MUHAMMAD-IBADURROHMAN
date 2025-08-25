@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import profilePhoto from '../../assets/images/profile-photo.png';
+import profilePhoto from '/src/assets/images/profile-photo.png';
 
 const roles = [
     'Web Developer.',
