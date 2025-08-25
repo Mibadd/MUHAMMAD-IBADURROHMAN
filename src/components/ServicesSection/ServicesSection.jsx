@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const ServicesSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
         threshold: 0.3,
-        triggerOnce: false, // Animasi hanya akan berjalan sekali
+        triggerOnce: false,
     });
 
     useEffect(() => {
@@ -39,21 +39,20 @@ const ServicesSection = ({ setActiveLink }) => {
         },
     ];
 
-    // Varian untuk seksi, meluncur dari KIRI
+
     const containerVariants = {
-        hidden: { opacity: 0, x: -100 }, // Mengubah x: 100 menjadi x: -100
+        hidden: { opacity: 0, x: -100 },
         visible: {
             opacity: 1,
             x: 0,
             transition: {
                 duration: 0.8,
                 ease: "easeOut",
-                staggerChildren: 0.2, // Efek stagger untuk setiap kartu
+                staggerChildren: 0.2,
             },
         },
     };
 
-    // Varian untuk setiap kartu, muncul dari bawah (sama seperti di PortfolioSection)
     const itemVariants = {
         hidden: { y: 20, opacity: 0 },
         visible: {
@@ -77,15 +76,15 @@ const ServicesSection = ({ setActiveLink }) => {
                     <h2 className="font-serif text-4xl font-extrabold text-stone-800">Layanan yang Saya Tawarkan</h2>
                     <p className="font-sans mt-4 text-lg text-stone-600">Saya dapat membantu Anda membangun produk digital dari awal hingga akhir.</p>
                 </div>
-                {/* Grid sekarang menjadi motion.div untuk mengontrol stagger */}
+
                 <motion.div
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-                    variants={containerVariants} // Meneruskan varian
+                    variants={containerVariants}
                 >
                     {services.map((service) => (
                         <motion.div
                             key={service.title}
-                            variants={itemVariants} // Setiap kartu menerapkan itemVariants
+                            variants={itemVariants}
                             className="group" style={{ perspective: '1000px' }}
                         >
                             <div className="relative bg-white p-8 rounded-lg shadow-md text-center transition-transform duration-500 ease-in-out group-hover:rotate-y-6" style={{ transformStyle: 'preserve-3d' }}>

@@ -90,7 +90,7 @@ const JourneySection = ({ setActiveLink }) => {
         <div
             className="bg-white p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-110 hover:z-10"
         >
-            <img src={item.imageUrl} alt={item.title} className="w-full h-auto rounded-md mb-4 border border-stone-200" />
+            <img src={item.imageUrl} alt={item.title} loading="lazy" className="w-full h-auto rounded-md mb-4 border border-stone-200" />
             <h4 className="font-serif font-bold text-lg text-stone-800">{item.title}</h4>
             <p className="font-sans text-sm text-stone-600 mt-1">{item.issuer} - {item.year}</p>
         </div>

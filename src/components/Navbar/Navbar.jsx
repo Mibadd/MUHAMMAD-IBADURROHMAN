@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from 'framer-motion'; // 1. Impor motion
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = ({ activeLink, setActiveLink }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,13 +16,12 @@ const Navbar = ({ activeLink, setActiveLink }) => {
 
     const handleScroll = (e, targetId) => {
         e.preventDefault();
-        // Mengambil elemen berdasarkan ID dari href
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        setActiveLink(targetId); // Memperbarui state di App.jsx
-        setIsMenuOpen(false); // Menutup menu setelah tautan diklik
+        setActiveLink(targetId);
+        setIsMenuOpen(false);
     };
 
     // 2. Definisikan varian animasi untuk menu

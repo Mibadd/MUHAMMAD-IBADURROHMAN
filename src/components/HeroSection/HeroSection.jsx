@@ -10,7 +10,6 @@ const roles = [
 ];
 
 const HeroSection = ({ setActiveLink }) => {
-    // ... (kode state dan useEffect Anda tidak berubah)
     const [index, setIndex] = useState(0);
     const [subIndex, setSubIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -77,14 +76,12 @@ const HeroSection = ({ setActiveLink }) => {
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
                 >
-                    {/* === KODE DIKEMBALIKAN KE VERSI SEMULA === */}
                     <div className="group relative w-64 h-64 md:w-72 md:h-72">
                         <div className="absolute inset-0 rounded-full bg-amber-400 animate-pulse-deep transition-all duration-500 group-hover:scale-110 group-hover:opacity-70"></div>
                         <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 group-hover:-translate-y-3">
                             <img src={profilePhoto} alt="Foto Profil Anda" className="w-full h-full object-cover rounded-full" />
                         </div>
                     </div>
-                    {/* === AKHIR BAGIAN YANG DIKEMBALIKAN === */}
                 </motion.div>
 
                 <motion.div
@@ -104,9 +101,26 @@ const HeroSection = ({ setActiveLink }) => {
                     <p className="font-sans mt-4 text-stone-600">
                         Saya mengubah ide dan desain menjadi aplikasi web yang fungsional, modern, dan mudah digunakan.
                     </p>
-                    <a href="#kontak" className="font-sans mt-8 inline-block px-8 py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-lg hover:bg-amber-700 transform hover:-translate-y-1 transition-all duration-300">
-                        Hubungi Saya
-                    </a>
+
+                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                        <a
+                            href="#kontak"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                document.querySelector('#kontak').scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="font-sans w-full sm:w-auto text-center px-8 py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-lg hover:bg-amber-700 transform hover:-translate-y-1 transition-all duration-300"
+                        >
+                            Hubungi Saya
+                        </a>
+                        <a
+                            href="/Muhammad-Ibdurrohman-CV-in.pdf"
+                            download
+                            className="font-sans w-full sm:w-auto text-center px-8 py-3 bg-stone-200 text-stone-800 font-semibold rounded-lg shadow-lg hover:bg-stone-300 transform hover:-translate-y-1 transition-all duration-300"
+                        >
+                            Unduh CV
+                        </a>
+                    </div>
                 </motion.div>
             </div>
         </section>

@@ -26,7 +26,6 @@ const PortfolioSection = ({ setActiveLink }) => {
         {
             id: 1,
             title: 'Service Kendaraan',
-            // --- DESKRIPSI BARU ---
             description: 'Mendigitalkan proses servis untuk meningkatkan efisiensi bengkel dan kepuasan pelanggan.',
             imageUrl: serviceKendaraanImg,
             link: 'https://github.com/Mibadd/Service-Kendaraan.git',
@@ -36,7 +35,6 @@ const PortfolioSection = ({ setActiveLink }) => {
         {
             id: 2,
             title: 'ParkEase',
-            // --- DESKRIPSI BARU ---
             description: 'Mempermudah pencarian parkir real-time melalui aplikasi mobile yang terintegrasi.',
             imageUrl: parkirKendaraanImg,
             link: 'https://github.com/Mibadd/ParkEase.git',
@@ -47,7 +45,6 @@ const PortfolioSection = ({ setActiveLink }) => {
         {
             id: 3,
             title: 'Aplikasi To-Do List',
-            // --- DESKRIPSI BARU ---
             description: 'Meningkatkan produktivitas harian dengan antarmuka manajemen tugas yang intuitif.',
             imageUrl: todoListImg,
             link: 'https://github.com/Mibadd/To-do-List.git',
@@ -56,16 +53,16 @@ const PortfolioSection = ({ setActiveLink }) => {
         },
     ];
 
-    // 2. Definisikan varian untuk meluncur dari kanan
+
     const containerVariants = {
-        hidden: { opacity: 0, x: 100 }, // Posisi awal: di kanan dan transparan
+        hidden: { opacity: 0, x: 100 },
         visible: {
             opacity: 1,
-            x: 0, // Posisi akhir: di tempatnya
+            x: 0,
             transition: {
                 duration: 0.8,
                 ease: "easeOut",
-                staggerChildren: 0.2, // Efek stagger untuk setiap kartu
+                staggerChildren: 0.2,
             },
         },
     };
@@ -80,12 +77,10 @@ const PortfolioSection = ({ setActiveLink }) => {
 
     return (
         <>
-            {/* 3. Ganti <section> dengan <motion.section> */}
             <motion.section
                 id="portofolio"
                 ref={ref}
-                className="py-50 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden" // Hapus kelas transisi
-                // 4. Terapkan animasi
+                className="py-50 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden"
                 variants={containerVariants}
                 initial="hidden"
                 animate={inView ? 'visible' : 'hidden'}
@@ -97,12 +92,10 @@ const PortfolioSection = ({ setActiveLink }) => {
                         <p className="font-sans mt-4 text-lg text-stone-600">Beberapa proyek yang telah saya kerjakan.</p>
                     </div>
 
-                    {/* motion.div di sini tidak perlu karena sudah ada di parent <motion.section> */}
                     <div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
                     >
                         {portfolio.map((item) => (
-                            // 5. Terapkan itemVariants pada setiap kartu
                             <motion.div key={item.id} variants={itemVariants} className="bg-slate-50 rounded-xl shadow-md overflow-hidden flex flex-col">
                                 <div className="w-full h-56 flex items-center justify-center overflow-hidden">
                                     <img

@@ -18,7 +18,6 @@ function App() {
       <Navbar activeLink={activeLink} setActiveLink={setActiveLink} />
       <CustomCursor />
       <main className="overflow-hidden">
-        {/* Teruskan setActiveLink ke setiap seksi */}
         <HeroSection setActiveLink={setActiveLink} />
         <AboutSection setActiveLink={setActiveLink} />
         <SkillsSection setActiveLink={setActiveLink} />

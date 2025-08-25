@@ -4,7 +4,6 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 
 const SkillsSection = ({ setActiveLink }) => {
-    // Data technologies tidak berubah
     const technologies = {
         languages: [
             { name: 'HTML5', iconUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
@@ -24,8 +23,8 @@ const SkillsSection = ({ setActiveLink }) => {
     const allTech = [...technologies.languages, ...technologies.frameworks];
 
     const { ref, inView } = useInView({
-        threshold: 0.2, // Atur threshold agar animasi terpicu lebih awal
-        triggerOnce: false, // Animasi hanya berjalan sekali
+        threshold: 0.2,
+        triggerOnce: false,
     });
 
     useEffect(() => {
@@ -34,27 +33,25 @@ const SkillsSection = ({ setActiveLink }) => {
         }
     }, [inView, setActiveLink]);
 
-    // 2. Definisikan varian untuk kontainer (pembungkus) dan item (ikon)
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1, // Beri jeda 0.1 detik untuk setiap item
+                staggerChildren: 0.1,
             },
         },
     };
 
     const itemVariants = {
-        hidden: { y: 20, opacity: 0 }, // Mulai dari bawah dan transparan
+        hidden: { y: 20, opacity: 0 },
         visible: {
             y: 0,
-            opacity: 1, // Selesai di posisi asli dan terlihat penuh
+            opacity: 1,
         },
     };
 
     return (
-        // 3. Ubah <section> menjadi <motion.section> dan hapus kelas transisi CSS
         <motion.section
             id="keahlian"
             ref={ref}
@@ -72,18 +69,18 @@ const SkillsSection = ({ setActiveLink }) => {
                         Beberapa teknologi dan alat yang saya gunakan dalam pengembangan web.
                     </p>
                 </div>
-                {/* 4. Gunakan motion.div sebagai pembungkus untuk menerapkan varian */}
+
                 <motion.div
                     className="flex flex-wrap justify-center items-center gap-x-10 gap-y-12 md:gap-x-16"
-                    variants={containerVariants} // Terapkan varian kontainer di sini
+                    variants={containerVariants}
                 >
                     {allTech.map((tech) => (
-                        // 5. Setiap ikon sekarang adalah motion.div dengan varian item
+
                         <motion.div
                             key={tech.name}
                             className="flex flex-col items-center gap-3 text-center transition-transform duration-300 hover:scale-110"
                             title={tech.name}
-                            variants={itemVariants} // Terapkan varian item
+                            variants={itemVariants}
                         >
                             <img
                                 src={tech.iconUrl}

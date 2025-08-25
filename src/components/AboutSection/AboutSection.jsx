@@ -15,12 +15,11 @@ const AboutSection = ({ setActiveLink }) => {
         }
     }, [inView, setActiveLink]);
 
-    // 2. Definisikan varian animasi
     const sectionVariants = {
-        hidden: { opacity: 0, y: 50 }, // Kondisi awal: tidak terlihat dan sedikit di bawah
+        hidden: { opacity: 0, y: 50 },
         visible: {
             opacity: 1,
-            y: 0, // Kondisi akhir: terlihat penuh di posisi asli
+            y: 0,
             transition: {
                 duration: 0.8,
                 ease: "easeOut"
@@ -29,12 +28,10 @@ const AboutSection = ({ setActiveLink }) => {
     };
 
     return (
-        // 3. Ganti <section> dengan <motion.section> dan hapus kelas transisi CSS
         <motion.section
             id="tentang"
             ref={ref}
             className="py-20 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden"
-            // 4. Terapkan varian animasi
             variants={sectionVariants}
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
