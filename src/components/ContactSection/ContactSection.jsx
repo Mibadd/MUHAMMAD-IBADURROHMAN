@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
 const ContactSection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
@@ -12,12 +14,26 @@ const ContactSection = ({ setActiveLink }) => {
         }
     }, [inView, setActiveLink]);
 
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut"
+            }
+        }
+    };
+
     return (
-        <section
+        <motion.section
             id="kontak"
             ref={ref}
-            className={`bg-stone-100 py-20 transition-all duration-700 ease-in-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+            className="bg-stone-100 py-20 overflow-hidden"
+            variants={sectionVariants}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
         >
             <div className="container mx-auto px-6 text-center">
                 <h2 className="font-serif text-4xl font-extrabold text-stone-800">Hubungi Saya</h2>
@@ -58,7 +74,7 @@ const ContactSection = ({ setActiveLink }) => {
                             Email
                         </a>
                         <a
-                            href="https://wa.me/6281234567890"
+                            href="https://wa.me/6281904364257"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-sans w-full md:w-auto px-6 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition-all duration-300"
@@ -68,7 +84,7 @@ const ContactSection = ({ setActiveLink }) => {
                     </div>
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

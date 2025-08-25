@@ -13,7 +13,7 @@ import sertifikatSql from '/src/assets/images/sertifikat-sql.png';
 const JourneySection = ({ setActiveLink }) => {
     const { ref, inView } = useInView({
         threshold: 0.2,
-        triggerOnce: false,
+        triggerOnce: true,
     });
 
     const [activeTab, setActiveTab] = useState('pendidikan');
@@ -64,16 +64,10 @@ const JourneySection = ({ setActiveLink }) => {
         },
     ];
 
-    // ... (Komponen TimelineItem dan CertificateCard tidak berubah) ...
     const TimelineItem = ({ item, index }) => (
         <div className="relative mb-8 flex justify-between items-center w-full">
-            {/* Spacer ini hanya aktif di desktop */}
             <div className={`hidden md:block w-[calc(50%-2rem)] ${index % 2 !== 0 ? 'order-2' : ''}`}></div>
-
-            {/* Titik penanda waktu: Posisinya diubah untuk seluler */}
             <div className="z-10 absolute left-4 md:left-1/2 w-4 h-4 bg-amber-600 rounded-full -translate-x-1/2 border-4 border-stone-100"></div>
-
-            {/* Kartu Konten: Diberi padding kiri di seluler */}
             <div className={`w-full md:w-[calc(50%-2rem)] p-4 pl-12 md:p-4 bg-white rounded-lg shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                 }`}>
                 <p className="font-sans font-bold text-amber-600 flex items-center gap-2" style={{ justifyContent: index % 2 === 0 ? 'md:flex-end' : 'flex-start' }}>
@@ -96,15 +90,26 @@ const JourneySection = ({ setActiveLink }) => {
         </div>
     );
 
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut"
+            }
+        }
+    };
 
     return (
         <motion.section
             id="journey"
             ref={ref}
             className="py-20 bg-gradient-to-br from-stone-50 to-stone-200 overflow-hidden"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            variants={sectionVariants}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
         >
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
@@ -114,7 +119,6 @@ const JourneySection = ({ setActiveLink }) => {
                 </div>
 
                 <div className="flex justify-center items-center gap-8 mb-12">
-                    {/* ... (kode tombol tab tidak berubah) ... */}
                     <h3
                         onClick={() => setActiveTab('pendidikan')}
                         className={`font-serif text-2xl font-bold cursor-pointer transition-all duration-300 flex items-center gap-2 ${activeTab === 'pendidikan' ? 'text-amber-600' : 'text-stone-500 hover:text-stone-800'
@@ -133,19 +137,16 @@ const JourneySection = ({ setActiveLink }) => {
                     </h3>
                 </div>
 
-                {/* === BAGIAN YANG DIPERBAIKI === */}
                 <div className="relative">
-                    {/* Konten Pendidikan */}
                     <div className={`transition-opacity duration-500 ${activeTab === 'pendidikan' ? 'opacity-100' : 'opacity-0 invisible absolute'}`}>
                         <div className="relative max-w-2xl mx-auto">
-                            <div className="absolute left-1/2 w-0.5 h-full bg-stone-300 -translate-x-1/2"></div>
+                            <div className="absolute left-4 md:left-1/2 w-0.5 h-full bg-stone-300 -translate-x-1/2"></div>
                             {education.map((item, index) => (
                                 <TimelineItem key={index} item={item} index={index} />
                             ))}
                         </div>
                     </div>
 
-                    {/* Konten Sertifikat */}
                     <div className={`transition-opacity duration-500 ${activeTab === 'sertifikat' ? 'opacity-100' : 'opacity-0 invisible absolute'}`}>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {certificates.map((item, index) => (
