@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import ProjectModal from './ProjectModal';
-import serviceKendaraanImg from '/src/assets/images/Service-kendaraan.png';
+import serviceKendaraanImg from '/src/assets/images/Service-Kendaraan.png';
 import parkirKendaraanImg from '/src/assets/images/Parkir.png';
 import todoListImg from '/src/assets/images/to-do list.png';
 
